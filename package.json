@@ -1,6 +1,6 @@
 {
   "name": "media-accessory-bar",
-  "version": "1.0.14",
+  "version": "1.0.16",
   "description": "keyboard media bar. returns uri of audio/image/video",
   "main": "index.js",
   "scripts": {

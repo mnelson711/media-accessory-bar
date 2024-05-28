@@ -14,6 +14,7 @@ export default function MediaAccessoryBar({
   mediaProp,
   toggleRecording,
   iconColor = "white",
+  iconSize = 25,
   backgroundColor = "#d0d3d9",
   borderColor = "#d0d3d9",
   borderBottomColor = "#d0d3d9",
@@ -21,7 +22,7 @@ export default function MediaAccessoryBar({
   borderTopWidth = 0,
   borderBottomWidth = 0,
   barHeight = 30,
-  iconSize = 25
+  allowsRecording = true,
 }) {
   const [media, setMedia] = useState(null);
   const [mediaType, setMediaType] = useState(null);
@@ -139,6 +140,7 @@ export default function MediaAccessoryBar({
         styles.barContainer,
       ]}
     >
+      {allowsRecording ? 
       <Animated.View
         style={[{ flex: 1 }, { transform: [{ translateX: mediaButtonAnim }] }]}
       >
@@ -156,6 +158,8 @@ export default function MediaAccessoryBar({
           </TouchableOpacity>
         </TouchableWithoutFeedback>
       </Animated.View>
+      :
+      null}
 
       <Animated.View
         style={[{ flex: 1 }, { transform: [{ translateX: mediaButtonAnim }] }]}

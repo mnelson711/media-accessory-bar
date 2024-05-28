@@ -24,7 +24,8 @@ export default function ParentBar({
   mediaAccessoryViewID = "defaultID",
   backgroundColor = "white",
   iconColor = "white",
-  allowRecording = false,
+  iconSize = 25,
+  allowsRecording = true,
   borderTopWidth = 0,
   borderBottomWidth = 0,
   borderTopColor = "white",
@@ -61,6 +62,7 @@ export default function ParentBar({
             mediaProp={handleMediaComplete}
             toggleRecording={handleToggle}
             iconColor={iconColor}
+            iconSize={iconSize}
             backgroundColor={backgroundColor}
             borderTopWidth={borderTopWidth}
             borderBottomWidth={borderBottomWidth}
@@ -68,6 +70,7 @@ export default function ParentBar({
             borderBottomColor={borderBottomColor}
             borderColor={borderColor}
             barHeight={barHeight}
+            allowsRecording={allowsRecording}
           />
         </InputAccessoryView>
       ) : (

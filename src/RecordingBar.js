@@ -217,7 +217,9 @@ export default function RecordingAccessoryBar({
   return (
     <View style={{ flex: 1 }}>
       {!stoppedRecording ? (
-        <View style={[{ backgroundColor: backgroundColor }, styles.barContainer]}>
+        <View
+          style={[{ backgroundColor: backgroundColor }, styles.barContainer]}
+        >
           <TouchableOpacity
             style={[
               styles.returnButton,
@@ -260,7 +262,9 @@ export default function RecordingAccessoryBar({
           </Animated.View>
         </View>
       ) : (
-        <View style={styles.barContainer}>
+        <View
+          style={[{ backgroundColor: backgroundColor }, styles.barContainer]}
+        >
           {/* <Animated.View
             style={[
               styles.returnButton,

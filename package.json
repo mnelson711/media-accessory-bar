@@ -1,7 +1,7 @@
 {
   "name": "media-accessory-bar",
-  "version": "1.0.9",
-  "description": "keyboard media bar",
+  "version": "1.0.14",
+  "description": "keyboard media bar. returns uri of audio/image/video",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

@@ -2,13 +2,10 @@ import React, { useState, useEffect, useRef } from "react";
 import * as ImagePicker from "expo-image-picker";
 import {
   View,
-  Text,
-  Button,
-  StyleSheet,
-  TextInput,
   Keyboard,
-  InputAccessoryView,
   Animated,
+  StyleSheet,
+  TouchableWithoutFeedback,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -18,15 +15,21 @@ export default function MediaAccessoryBar({
   toggleRecording,
   iconColor = "white",
   backgroundColor = "#d0d3d9",
+  borderColor = "#d0d3d9",
+  borderBottomColor = "#d0d3d9",
+  borderTopColor = "#d0d3d9",
+  borderTopWidth = 0,
+  borderBottomWidth = 0,
+  barHeight = 30,
+  iconSize = 25
 }) {
   const [media, setMedia] = useState(null);
   const [mediaType, setMediaType] = useState(null);
   const [keyboardHeight, setKeyboardHeight] = useState(0);
   const [recordingState, setRecordingState] = useState(false);
 
-  //animation logic below
+  const mediaButtonAnim = useRef(new Animated.Value(-100)).current;
 
-  const mediaButtonAnim = useRef(new Animated.Value(-100)).current; // Initial position off-screen
   useEffect(() => {
     Animated.timing(mediaButtonAnim, {
       toValue: 0,
@@ -59,7 +62,6 @@ export default function MediaAccessoryBar({
     Keyboard.dismiss();
   };
 
-  //sending media and recording toggle back to parent component
   useEffect(() => {
     if (media && mediaType) {
       sendMedia();
@@ -72,12 +74,10 @@ export default function MediaAccessoryBar({
     }
   }, [recordingState]);
 
-  //media logic (camera and gallery) below
-
   const pickMedia = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All, // Allows both videos and images
-      allowsEditing: true, // Only applies to images
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
       aspect: [4, 3],
       quality: 0,
     });
@@ -90,7 +90,6 @@ export default function MediaAccessoryBar({
   };
 
   const takeMedia = async () => {
-    // Request camera and microphone permissions if not already granted
     const cameraPermission = await ImagePicker.requestCameraPermissionsAsync();
     if (!cameraPermission.granted) {
       alert("Permissions to access camera and microphone are required!");
@@ -98,8 +97,8 @@ export default function MediaAccessoryBar({
     }
 
     let result = await ImagePicker.launchCameraAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All, // This will still default to capturing images
-      allowsEditing: true, // Only applies to images
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
       aspect: [4, 3],
       quality: 0,
     });
@@ -126,43 +125,64 @@ export default function MediaAccessoryBar({
   }
 
   return (
-    <View style={[{ backgroundColor: backgroundColor }, styles.barContainer]}>
+    <View
+      style={[
+        {
+          backgroundColor: backgroundColor,
+          borderTopWidth: borderTopWidth,
+          borderBottomWidth: borderBottomWidth,
+          borderBottomColor: borderBottomColor,
+          borderTopColor: borderTopColor,
+          borderColor: borderColor,
+          height: barHeight,
+        },
+        styles.barContainer,
+      ]}
+    >
       <Animated.View
         style={[{ flex: 1 }, { transform: [{ translateX: mediaButtonAnim }] }]}
       >
-        <TouchableOpacity
-          style={styles.barButton}
-          onPress={() => {
-            if (toggleRecording) {
-              console.log("toggled recording");
-              toggleRecording(true);
-            }
-          }}
-        >
-          <Ionicons name="mic" size={25} color={iconColor} />
-        </TouchableOpacity>
+        <TouchableWithoutFeedback onPress={() => {}}>
+          <TouchableOpacity
+            style={styles.barButton}
+            onPress={() => {
+              if (toggleRecording) {
+                console.log("toggled recording");
+                toggleRecording(true);
+              }
+            }}
+          >
+            <Ionicons name="mic" size={iconSize} color={iconColor} />
+          </TouchableOpacity>
+        </TouchableWithoutFeedback>
       </Animated.View>
 
       <Animated.View
         style={[{ flex: 1 }, { transform: [{ translateX: mediaButtonAnim }] }]}
       >
-        <TouchableOpacity style={styles.barButton} onPress={takeMedia}>
-          <Ionicons name="camera" size={25} color={iconColor} />
-        </TouchableOpacity>
+        <TouchableWithoutFeedback onPress={() => {}}>
+          <TouchableOpacity style={styles.barButton} onPress={takeMedia}>
+            <Ionicons name="camera" size={iconSize} color={iconColor} />
+          </TouchableOpacity>
+        </TouchableWithoutFeedback>
       </Animated.View>
       <Animated.View
         style={[{ flex: 1 }, { transform: [{ translateX: mediaButtonAnim }] }]}
       >
-        <TouchableOpacity style={styles.barButton} onPress={pickMedia}>
-          <Ionicons name="images" size={25} color={iconColor} />
-        </TouchableOpacity>
+        <TouchableWithoutFeedback onPress={() => {}}>
+          <TouchableOpacity style={styles.barButton} onPress={pickMedia}>
+            <Ionicons name="images" size={iconSize} color={iconColor} />
+          </TouchableOpacity>
+        </TouchableWithoutFeedback>
       </Animated.View>
       <Animated.View
         style={[{ flex: 1 }, { transform: [{ translateX: mediaButtonAnim }] }]}
       >
-        <TouchableOpacity style={styles.barButton} onPress={hideKeyboard}>
-          <Ionicons name="checkmark" size={25} color={iconColor} />
-        </TouchableOpacity>
+        <TouchableWithoutFeedback onPress={() => {}}>
+          <TouchableOpacity style={styles.barButton} onPress={hideKeyboard}>
+            <Ionicons name="checkmark" size={iconSize} color={iconColor} />
+          </TouchableOpacity>
+        </TouchableWithoutFeedback>
       </Animated.View>
     </View>
   );
@@ -172,14 +192,11 @@ const styles = StyleSheet.create({
   barContainer: {
     flexDirection: "row",
     alignItems: "center",
-    // backgroundColor: "#d0d3d9",
     flex: 1,
-    // borderBottomWidth: 1,
-    borderTopWidth: 1,
-    borderColor: "#bbbec3",
+    // borderTopWidth: 1,
+    // borderColor: "#bbbec3",
   },
   barButton: {
-    // backgroundColor: "#d0d3d9",
     justifyContent: "center",
     alignItems: "center",
     padding: 7,

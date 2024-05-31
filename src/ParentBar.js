@@ -20,7 +20,8 @@ import {
 import MediaAccessoryBar from "./MediaBar";
 import RecordingAccessoryBar from "./RecordingBar";
 
-export default function ParentBar({
+export default function KeyboardMediaBar({
+  uri = "",
   mediaAccessoryViewID = "defaultID",
   backgroundColor = "white",
   iconColor = "white",
@@ -46,12 +47,23 @@ export default function ParentBar({
     setShowMediaBar(true);
     setMediaUri(uri);
     setMediaType("audio");
+    // sendUri();
   };
 
   const handleMediaComplete = async (mediaProp) => {
     console.log("received data from mediabar", mediaProp);
     setMediaUri(mediaProp.assets[0].uri);
     setMediaType(mediaProp.assets[0].type);
+    // sendUri();
+    if (uri) {
+      uri(mediaProp.assets[0].uri);
+    }
+};
+
+  const sendUri = async () => {
+    if(uri) {
+      uri(mediaUri);
+    }
   };
 
   return (
@@ -79,7 +91,15 @@ export default function ParentBar({
             onRecordingComplete={handleRecordingComplete}
             toggleRecording={handleToggle}
             iconColor={iconColor}
+            iconSize={iconSize}
             backgroundColor={backgroundColor}
+            borderTopWidth={borderTopWidth}
+            borderBottomWidth={borderBottomWidth}
+            borderTopColor={borderTopColor}
+            borderBottomColor={borderBottomColor}
+            borderColor={borderColor}
+            barHeight={barHeight}
+            allowsRecording={allowsRecording}
           />
         </InputAccessoryView>
       )}

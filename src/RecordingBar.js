@@ -18,7 +18,15 @@ export default function RecordingAccessoryBar({
   onRecordingComplete,
   toggleRecording,
   iconColor = "white",
+  iconSize = 25,
   backgroundColor = "#d0d3d9",
+  borderColor = "#d0d3d9",
+  borderBottomColor = "#d0d3d9",
+  borderTopColor = "#d0d3d9",
+  borderTopWidth = 0,
+  borderBottomWidth = 0,
+  barHeight = 30,
+  allowsRecording = true,
 }) {
   const [startedRecording, setStartedRecording] = useState(false);
   const [stoppedRecording, setStoppedRecording] = useState(false);
@@ -182,7 +190,7 @@ export default function RecordingAccessoryBar({
       await recording.stopAndUnloadAsync();
       const uri = recording.getURI();
       setRecordingUri(uri);
-      console.log("Recording stopped and stored at", uri);
+      console.log("Recording info", recording);
       setStoppedRecording(true);
       setStartedRecording(false);
       setTimerRunning(false);
@@ -218,7 +226,18 @@ export default function RecordingAccessoryBar({
     <View style={{ flex: 1 }}>
       {!stoppedRecording ? (
         <View
-          style={[{ backgroundColor: backgroundColor }, styles.barContainer]}
+          style={[
+            {
+              backgroundColor: backgroundColor,
+              borderTopWidth: borderTopWidth,
+              borderBottomWidth: borderBottomWidth,
+              borderBottomColor: borderBottomColor,
+              borderTopColor: borderTopColor,
+              borderColor: borderColor,
+              height: barHeight,
+            },
+            styles.barContainer,
+          ]}
         >
           <TouchableOpacity
             style={[
@@ -233,7 +252,11 @@ export default function RecordingAccessoryBar({
               }
             }}
           >
-            <Ionicons name={"return-up-back"} size={25} color={iconColor} />
+            <Ionicons
+              name={"return-up-back"}
+              size={iconSize}
+              color={iconColor}
+            />
           </TouchableOpacity>
           <Animated.View
             style={[
@@ -255,7 +278,7 @@ export default function RecordingAccessoryBar({
             >
               <Ionicons
                 name={!startedRecording ? "play" : "pause"}
-                size={25}
+                size={iconSize}
                 color={iconColor}
               />
             </TouchableOpacity>
@@ -263,7 +286,18 @@ export default function RecordingAccessoryBar({
         </View>
       ) : (
         <View
-          style={[{ backgroundColor: backgroundColor }, styles.barContainer]}
+          style={[
+            {
+              backgroundColor: backgroundColor,
+              borderTopWidth: borderTopWidth,
+              borderBottomWidth: borderBottomWidth,
+              borderBottomColor: borderBottomColor,
+              borderTopColor: borderTopColor,
+              borderColor: borderColor,
+              height: barHeight,
+            },
+            styles.barContainer,
+          ]}
         >
           {/* <Animated.View
             style={[
@@ -285,7 +319,11 @@ export default function RecordingAccessoryBar({
               }
             }}
           >
-            <Ionicons name={"return-up-back"} size={25} color={iconColor} />
+            <Ionicons
+              name={"return-up-back"}
+              size={iconSize}
+              color={iconColor}
+            />
           </TouchableOpacity>
           {/* </Animated.View> */}
           <Animated.View
@@ -295,7 +333,7 @@ export default function RecordingAccessoryBar({
             ]}
           >
             <TouchableOpacity onPress={deleteRecording}>
-              <Ionicons name={"close"} size={25} color={iconColor} />
+              <Ionicons name={"close"} size={iconSize} color={iconColor} />
             </TouchableOpacity>
           </Animated.View>
           <Animated.View
@@ -305,7 +343,7 @@ export default function RecordingAccessoryBar({
             ]}
           >
             <TouchableOpacity onPress={playRecording}>
-              <Ionicons name={"headset"} size={25} color={iconColor} />
+              <Ionicons name={"headset"} size={iconSize} color={iconColor} />
             </TouchableOpacity>
           </Animated.View>
           <Animated.View
@@ -315,7 +353,7 @@ export default function RecordingAccessoryBar({
             ]}
           >
             <TouchableOpacity onPress={saveRecording}>
-              <Ionicons name={"send"} size={25} color={iconColor} />
+              <Ionicons name={"send"} size={iconSize} color={iconColor} />
             </TouchableOpacity>
           </Animated.View>
         </View>

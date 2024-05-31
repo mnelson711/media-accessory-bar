@@ -1,12 +1,9 @@
-fix background color for recording bar
-add border color prop
-add show border at all prop
-add height prop
 add different icon options prop?
 add uri prop (save the generated uri)
-fix animation for recording state
 
 add testing
 rename package
 create github repo
 create extensive README
+
+New Name: KeyboardMediaBar

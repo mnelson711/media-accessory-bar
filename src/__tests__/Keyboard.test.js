@@ -22,3 +22,9 @@ describe("KeyboardMediaBar", () => {
     expect(getByTestId("recording-bar")).toBeTruthy();
   });
 });
+
+//test cases:
+//check the border props
+//check the icon props
+//check the no-recording mode
+//check it properly returns the URI

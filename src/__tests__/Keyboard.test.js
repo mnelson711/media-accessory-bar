@@ -1,6 +1,6 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
-import KeyboardMediaBar from "../KeyboardMediaBar";
+import KeyboardMediaBar from "../ParentBar"
 
 describe("KeyboardMediaBar", () => {
   const handleMediaUri = jest.fn();

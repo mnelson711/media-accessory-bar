@@ -7,3 +7,5 @@ create github repo
 create extensive README
 
 New Name: KeyboardMediaBar
+
+figure out why expo-image-picker and gesture handle

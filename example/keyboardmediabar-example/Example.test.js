@@ -1,12 +1,12 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react-native";
-import App from "./App";
+import Example from "./Example";
 
 describe("KeyboardMediaBar", () => {
   const handleMediaUri = jest.fn();
 
   test("renders correctly with default props", () => {
-    const { getByTestId } = render(<App />);
+    const { getByTestId } = render(<Example />);
     expect(getByTestId("keyboard-media-bar")).toBeTruthy();
   });
 

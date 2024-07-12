@@ -1,6 +1,6 @@
 {
   "name": "media-accessory-bar",
-  "version": "1.0.22",
+  "version": "1.0.24",
   "description": "keyboard media bar. returns uri of audio/image/video",
   "main": "index.js",
   "scripts": {
@@ -20,7 +20,8 @@
   },
   "homepage": "https://github.com/mnelson711/media-accessory-bar#readme",
   "dependencies": {
-    "expo-av": "^14.0.5"
+    "expo-av": "^14.0.5",
+    "prop-types": "^15.8.1"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",

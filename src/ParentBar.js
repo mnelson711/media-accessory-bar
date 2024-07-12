@@ -1,27 +1,14 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import {
   View,
-  StyleSheet,
-  Keyboard,
-  Button,
-  Dimensions,
-  KeyboardAvoidingView,
-  TextInput,
-  Text,
   InputAccessoryView,
-  ScrollView,
-  Image,
-  SafeAreaView,
-  Platform,
-  Animated,
-  ActivityIndicator,
-  Alert,
 } from "react-native";
 import MediaAccessoryBar from "./MediaBar";
 import RecordingAccessoryBar from "./RecordingBar";
+import PropTypes from "prop-types";
 
 export default function KeyboardMediaBar({
-  uri = "",
+  uri = () => {}, //should return uri
   mediaAccessoryViewID = "defaultID",
   backgroundColor = "white",
   iconColor = "white",
@@ -47,14 +34,14 @@ export default function KeyboardMediaBar({
     setShowMediaBar(true);
     setMediaUri(uri);
     setMediaType("audio");
-    // sendUri();
+    sendUri();
   };
 
   const handleMediaComplete = async (mediaProp) => {
     console.log("received data from mediabar", mediaProp);
     setMediaUri(mediaProp.assets[0].uri);
     setMediaType(mediaProp.assets[0].type);
-    // sendUri();
+    sendUri();
     if (uri) {
       uri(mediaProp.assets[0].uri);
     }
@@ -105,4 +92,33 @@ export default function KeyboardMediaBar({
       )}
     </View>
   );
+};
+
+KeyboardMediaBar.propTypes = {
+  uri: PropTypes.func.isRequired,
+  mediaAccessoryViewID: PropTypes.string,
+  backgroundColor: PropTypes.string,
+  iconColor: PropTypes.string,
+  iconSize: PropTypes.number,
+  allowsRecording: PropTypes.bool,
+  borderTopWidth: PropTypes.number,
+  borderBottomWidth: PropTypes.number,
+  borderTopColor: PropTypes.string,
+  borderBottomColor: PropTypes.string,
+  borderColor: PropTypes.string,
+  barHeight: PropTypes.number,
+};
+
+KeyboardMediaBar.defaultProps = {
+  mediaAccessoryViewID: "defaultID",
+  backgroundColor: "white",
+  iconColor: "white",
+  iconSize: 25,
+  allowsRecording: true,
+  borderTopWidth: 0,
+  borderBottomWidth: 0,
+  borderTopColor: "white",
+  borderBottomColor: "white",
+  borderColor: "white",
+  barHeight: 100,
 };

@@ -1,57 +1,65 @@
 import React, { useState } from "react";
-import {
-  View,
-  InputAccessoryView,
-} from "react-native";
+import PropTypes from "prop-types";
+import { View, InputAccessoryView } from "react-native";
 import MediaAccessoryBar from "./MediaBar";
 import RecordingAccessoryBar from "./RecordingBar";
-import PropTypes from "prop-types";
 
 export default function KeyboardMediaBar({
-  uri = () => {}, //should return uri
-  mediaAccessoryViewID = "defaultID",
-  backgroundColor = "white",
-  iconColor = "white",
-  iconSize = 25,
-  allowsRecording = true,
-  borderTopWidth = 0,
-  borderBottomWidth = 0,
-  borderTopColor = "white",
-  borderBottomColor = "white",
-  borderColor = "white",
-  barHeight = 100,
+  onMediaChange = () => {},
+  mediaAccessoryViewID,
+  backgroundColor,
+  iconColor,
+  iconSize,
+  allowsRecording,
+  borderTopWidth,
+  borderBottomWidth,
+  borderTopColor,
+  borderBottomColor,
+  borderColor,
+  barHeight,
 }) {
   const [showMediaBar, setShowMediaBar] = useState(true);
-  const [mediaType, setMediaType] = useState("image");
-  const [mediaUri, setMediaUri] = useState("");
 
   const handleToggle = (toggle) => {
-    console.log("handling toggle: ", toggle);
     setShowMediaBar(!toggle);
   };
+
   const handleRecordingComplete = async (uri) => {
-    console.log("Received data from recording bar:", uri);
-    setShowMediaBar(true);
-    setMediaUri(uri);
-    setMediaType("audio");
-    sendUri();
+    const mediaMetadata = {
+      uri,
+      type: "audio",
+      fileName: "recording.mp3",
+      fileSize: 204800, // example size in bytes
+      duration: 60, // example duration in seconds
+      dimensions: null,
+      timestamp: new Date().toISOString(),
+      thumbnail: null,
+    };
+    onMediaChange(mediaMetadata);
+    sendMedia();
   };
 
   const handleMediaComplete = async (mediaProp) => {
-    console.log("received data from mediabar", mediaProp);
-    setMediaUri(mediaProp.assets[0].uri);
-    setMediaType(mediaProp.assets[0].type);
-    sendUri();
-    if (uri) {
-      uri(mediaProp.assets[0].uri);
-    }
-};
-
-  const sendUri = async () => {
-    if(uri) {
-      uri(mediaUri);
-    }
+    const { uri, type, fileName, fileSize, duration, width, height } =
+      mediaProp.assets[0];
+    const mediaMetadata = {
+      uri,
+      type,
+      fileName,
+      fileSize,
+      duration: type === "video" ? duration : null,
+      dimensions: { width, height },
+      timestamp: new Date().toISOString(),
+      thumbnail: type === "video" ? `path/to/thumbnail/for/${fileName}` : null, // example thumbnail path
+    };
+    onMediaChange(mediaMetadata);
+    sendMedia();
   };
+
+  const sendMedia = async () => {
+    if(onMediaChange) {
+      onMediaChange(mediaMetadata);
+  }};
 
   return (
     <View>
@@ -95,7 +103,7 @@ export default function KeyboardMediaBar({
 };
 
 KeyboardMediaBar.propTypes = {
-  uri: PropTypes.func.isRequired,
+  onMediaChange: PropTypes.func.isRequired,
   mediaAccessoryViewID: PropTypes.string,
   backgroundColor: PropTypes.string,
   iconColor: PropTypes.string,
@@ -107,18 +115,4 @@ KeyboardMediaBar.propTypes = {
   borderBottomColor: PropTypes.string,
   borderColor: PropTypes.string,
   barHeight: PropTypes.number,
-};
-
-KeyboardMediaBar.defaultProps = {
-  mediaAccessoryViewID: "defaultID",
-  backgroundColor: "white",
-  iconColor: "white",
-  iconSize: 25,
-  allowsRecording: true,
-  borderTopWidth: 0,
-  borderBottomWidth: 0,
-  borderTopColor: "white",
-  borderBottomColor: "white",
-  borderColor: "white",
-  barHeight: 100,
 };

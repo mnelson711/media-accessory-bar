@@ -6,6 +6,8 @@ rename package
 create github repo
 create extensive README
 
+add thumbnail being sent as metadata?
+
 New Name: KeyboardMediaBar
 
 figure out why expo-image-picker and gesture handle
